@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Category {
+  id        String      @id @default(uuid())
+  name      String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  items     StockItem[]
+}
+
+model StockItem {
+  id        String   @id @default(uuid())
+  reference String   @unique
+  name      String
+  buyPrice  Float
+  sellPrice Float
+  supplier  String
+  client    String
+  quantity  Int
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  category  Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+}

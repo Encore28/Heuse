@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { StockItem } from '../types/Stock';
+import { categories } from '../data/categories';
 
 interface AddItemModalProps {
   isOpen: boolean;
@@ -17,7 +18,8 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ isOpen, onClose, onAdd }) =
     client: '',
     quantity: '',
     imageUrl: '',
-    reference: ''
+    reference: '',
+    category: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -30,7 +32,8 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ isOpen, onClose, onAdd }) =
       client: formData.client,
       quantity: parseInt(formData.quantity),
       imageUrl: formData.imageUrl,
-      reference: formData.reference
+      reference: formData.reference,
+      category: formData.category
     });
     onClose();
   };
@@ -39,93 +42,109 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ isOpen, onClose, onAdd }) =
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Ajouter un nouvel article</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <h2 className="text-xl font-bold dark:text-white">Ajouter un nouvel article</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
             <X size={24} />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Référence</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Référence</label>
               <input
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.reference}
                 onChange={(e) => setFormData({ ...formData, reference: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Nom</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Catégorie</label>
+              <select
+                required
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              >
+                <option value="">Sélectionner une catégorie</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Nom</label>
               <input
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Prix d'achat</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Prix d'achat</label>
               <input
                 type="number"
                 required
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.buyPrice}
                 onChange={(e) => setFormData({ ...formData, buyPrice: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Prix de vente</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Prix de vente</label>
               <input
                 type="number"
                 required
                 step="0.01"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.sellPrice}
                 onChange={(e) => setFormData({ ...formData, sellPrice: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Fournisseur</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Fournisseur</label>
               <input
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.supplier}
                 onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Client</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Client</label>
               <input
                 type="text"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.client}
                 onChange={(e) => setFormData({ ...formData, client: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Quantité</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantité</label>
               <input
                 type="number"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">URL de l'image</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">URL de l'image</label>
               <input
                 type="url"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 value={formData.imageUrl}
                 onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
               />
@@ -135,7 +154,7 @@ const AddItemModal: React.FC<AddItemModalProps> = ({ isOpen, onClose, onAdd }) =
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md"
+              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md"
             >
               Annuler
             </button>

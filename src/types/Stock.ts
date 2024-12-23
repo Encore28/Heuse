@@ -8,4 +8,10 @@ export interface StockItem {
   quantity: number;
   imageUrl: string;
   reference: string;
+  category: string;
 }
+
+export type Category = {
+  id: string;
+  name: string;
+};

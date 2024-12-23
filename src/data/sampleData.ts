@@ -9,5 +9,6 @@ export const sampleData: StockItem[] = [{
   supplier: 'TechSupply Inc',
   client: 'Digital Store',
   quantity: 5,
-  imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300'
+  imageUrl: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300',
+  category: 'electronics'
 }];
